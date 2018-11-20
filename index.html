@@ -42,9 +42,26 @@ An AMP HTML tutorial - learn the different building blocks of an AMP HTML file. 
 <!-- ## Body -->
 <!-- -->
 <body>
-  <amp-analytics config="https://www.googletagmanager.com/amp.json?id=GTM-PQ52TSJ&gtm.url=SOURCE_URL" data-credentials="include"></amp-analytics>
+  <amp-analytics type="gtag" data-credentials="include">
+    <script type="application/json">
+      {
+      "vars" : {
+        "gtag_id": "UA-128976995-1",
+        "config" : {
+          "UA-128976995-1": { "groups": "default" },
+          "723-506-2689": { "groups": "default" }
+        }
+      },
+      "triggers" : {
+      },
+      "linkers": {
+          "enabled": true
+      },
+    }
+    </script>
+  </amp-analytics>
   <h1>Boring AMP Test Page</h1>
   <p>Nothing much happening here</p>
-
+  <a href="/ampless.html">But you can click here</a>
 </body>
 </html>
