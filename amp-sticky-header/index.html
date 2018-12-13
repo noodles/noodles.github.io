@@ -1,0 +1,229 @@
+
+<!doctype html>
+<html ⚡>
+  <head>
+    <meta charset="utf-8">
+    <title>Sticky Headers in AMP</title>
+    <link rel="canonical" href="self.html" />
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <script async src="https://cdn.ampproject.org/v0.js"></script>
+    <script async custom-element="amp-position-observer" src="https://cdn.ampproject.org/v0/amp-position-observer-0.1.js"></script>
+    <script async custom-element="amp-animation" src="https://cdn.ampproject.org/v0/amp-animation-0.1.js"></script>
+    <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+
+      <style amp-custom>
+    /* the sticky header */
+    :root {
+      --header-height: 56px;
+    }
+    .sticky-header {
+      position: sticky;
+      position: -webkit-sticky;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--header-height);
+      z-index: 1000;
+    }
+    .sticky-header .item {
+      position: relative;
+    }
+    .sticky-header .item > * {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      line-height: var(--header-height);
+    }
+
+    /* hide all selected items by default and let amp-position-observer determine the correct one */
+    .sticky-header .item .selected {
+      opacity: 0;
+    }
+
+    /* move anchor sections below the sticky header */
+    :target {
+      display: block;
+      position: relative;
+      top: calc(-1 * var(--header-height) - 8px);
+      visibility: hidden;
+    }
+
+    /* general styling */
+    h1 {
+      text-align: center;
+    }
+    h1, main {
+      margin: 1rem;
+    }
+    a, a:visited {
+      color: inherit;
+      text-decoration: inherit;
+      background-color: inherit;
+    }
+    .sticky-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      background-color: #ccc;
+    }
+    .sticky-header .item {
+      height: 100%;
+      width: 100%;
+    }
+    .sticky-header .item > * {
+      text-align: center;
+      color: white;
+    }
+    .sticky-header .item .selected {
+      color: red;
+    }
+    body > * {
+      margin: 16px auto;
+      max-width: 560px;
+    }
+   </style>
+  </head>
+  <body>
+
+    <amp-animation id="select-item1" layout="nodisplay">
+      <script type="application/json">
+          {
+            "--opacity": "1",
+            "selector": ".selected",
+            "duration": "0.25s",
+            "keyframes": {"opacity": "var(--opacity)"},
+            "fill": "forwards",
+            "subtargets": [{
+              "selector": ":not(#item1-selected)",
+              "--opacity": "0"
+            }]
+          }
+      </script>
+    </amp-animation>
+
+    <amp-animation id="select-item2" layout="nodisplay">
+      <script type="application/json">
+          {
+            "--opacity": "1",
+            "selector": ".selected",
+            "duration": "0.25s",
+            "keyframes": {"opacity": "var(--opacity)"},
+            "fill": "forwards",
+            "subtargets": [{
+              "selector": ":not(#item2-selected)",
+              "--opacity": "0"
+            }]
+          }
+      </script>
+    </amp-animation>
+
+    <amp-animation id="select-item3" layout="nodisplay">
+      <script type="application/json">
+          {
+            "--opacity": "1",
+            "selector": ".selected",
+            "duration": "0.25s",
+            "keyframes": {"opacity": "var(--opacity)"},
+            "fill": "forwards",
+            "subtargets": [{
+              "selector": ":not(#item3-selected)",
+              "--opacity": "0"
+            }]
+          }
+      </script>
+    </amp-animation>
+
+    <h1>Hello AMPHTML World!</h1>
+    <div class="sticky-header">
+      <div class="item" on="tap:select-item1.start" tabindex="0" role="button">
+        <a href="#item1">Item 1</a>
+        <a id="item1-selected" href="#item1" class="selected">Item 1</a>
+      </div>
+      <div class="item" on="tap:select-item2.start" tabindex="0" role="button">
+        <a href="#item2">Item 2</a>
+        <a id="item2-selected" href="#item2" class="selected">Item 2</a>
+      </div>
+      <div class="item" on="tap:select-item3.start" tabindex="0" role="button">
+        <a href="#item3">Item 3</a>
+        <a id="item3-selected" href="#item3" class="selected">Item 3</a>
+      </div>
+    </div>
+    <main>
+
+    <section>
+      <amp-position-observer intersection-ratios="0.7" on="enter:select-item1.start" layout="nodisplay"></amp-position-observer>
+      <a id="item1"></a>
+      <h2>Item 1</h2>
+      <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
+      takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
+      et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+      <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
+      takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
+      et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+    </section>
+
+    <section>
+      <amp-position-observer intersection-ratios="0.7" on="enter:select-item2.start" layout="nodisplay"></amp-position-observer>
+      <a id="item2"></a>
+      <h2>Item 2</h2>
+      <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
+      takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
+      et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+      <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
+      takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
+      et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+    </section>
+
+    <section>
+      <amp-position-observer intersection-ratios="0.7" on="enter:select-item3.start" layout="nodisplay"></amp-position-observer>
+      <a id="item3"></a>
+      <h2>Item 3</h2>
+      <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
+      takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
+      et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+      <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
+      takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
+      et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+    </section>
+
+    <section>
+      <amp-position-observer intersection-ratios="0.7" on="enter:select-item1.start" layout="nodisplay"></amp-position-observer>
+      <a id="item1"></a>
+      <h2>Item 1</h2>
+      <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
+      takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
+      et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+      <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
+      takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
+      et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+    </section>
+
+    <section>
+      <amp-position-observer intersection-ratios="0.7" on="enter:select-item2.start" layout="nodisplay"></amp-position-observer>
+      <a id="item2"></a>
+      <h2>Item 2</h2>
+      <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
+      takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
+      et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+      <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
+      takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
+      et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+    </section>
+
+    <section>
+      <amp-position-observer intersection-ratios="0.7" on="enter:select-item3.start" layout="nodisplay"></amp-position-observer>
+      <a id="item3"></a>
+      <h2>Item 3</h2>
+      <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
+      takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
+      et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+      <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
+      takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
+      et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+    </section>
+    
+    </main>
+  </body>
+</html>
