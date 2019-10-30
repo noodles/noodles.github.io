@@ -383,7 +383,7 @@ logData 1
 execAndWait document.querySelector("a[href='${ampUrl}'").click();`;
     document.getElementById('collapse-script').style.display = 'block';
     document.getElementById('script').innerText = script;
-    return fetch(`https://www.webpagetest.org/runtest.php?k=${api_key}&f=json&runs=${RUNS}&fvonly=1&video=1&mobile=1&location=Dulles%3AChrome.${connection}&script=${encodeURIComponent(script)}`).then(response => response.text()).then(json => {
+    return fetch(`https://www.webpagetest.org/runtest.php?k=${api_key}&f=json&runs=${RUNS}&fvonly=1&video=1&mobile=1&location=ec2-ap-southeast-2%3AChrome.${connection}&script=${encodeURIComponent(script)}`).then(response => response.text()).then(json => {
       return {
         name: name,
         id: JSON.parse(json).data.testId
